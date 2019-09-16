@@ -10,6 +10,27 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+$(document).ready(function (){
 
 
 
+
+
+
+
+
+
+// chate functions
+  $("#chat-input").on("keyup", function(event){
+
+    if (event.keyCode === 13)
+  
+      event.preventDefault();
+      
+      $("#send-button").click();
+  })
+
+  $("#send-button").on("click", function (){
+  })
+
+})
