@@ -15,7 +15,7 @@ var database = firebase.database();
 var userMessage;
 
 $(document).ready(function (){
-  
+  $(".chat-screen").hide();
   $("#click-play").show();
   // database.ref("").on("value", function(snapshot){  })
   // database.ref("").set({});
@@ -29,19 +29,32 @@ $(document).ready(function (){
       if ((snapshot.child("playerOne/player").val()=== true) && (snapshot.child("playerTwo/player").val()=== true))
       {
         $("#feedback").text("Game is Full Please Try Again later");
-        $("#click-play").hide();
+        
       }  else if ((snapshot.child("playerTwo/player").val()=== false) && (snapshot.child("playerOne/player").val()=== false)){
         database.ref("users/playerOne").set({
           player:true,
           });
           $("#click-play").hide();
           $("#feedback").text("Player One");
+          $(".chat-screen").show();
           console.log("playerOne")
           sessionStorage.setItem("user", "Player One");
           database.ref("users/playerOne").onDisconnect().set({
             player:false,
             });
-      } else {
+      } else if ((snapshot.child("playerTwo/player").val()=== true) && (snapshot.child("playerOne/player").val()=== false)){
+        database.ref("users/playerOne").set({
+          player:true,
+          });
+          $("#click-play").hide();
+          $("#feedback").text("Player One");
+          $(".chat-screen").show();
+          console.log("playerOne")
+          sessionStorage.setItem("user", "Player One");
+          database.ref("users/playerOne").onDisconnect().set({
+            player:false,
+            });
+          } else {
         database.ref("users/playerTwo").set({
           player:true,
           });
@@ -49,6 +62,7 @@ $(document).ready(function (){
           sessionStorage.setItem("user", "Player Two");
           $("#click-play").hide();
           $("#feedback").text("Player Two");
+          $(".chat-screen").show();
           database.ref("users/playerTwo").onDisconnect().set({
             player:false,
             });
