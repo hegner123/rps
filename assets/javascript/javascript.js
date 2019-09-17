@@ -85,7 +85,8 @@ $(document).ready(function (){
   });
 
   $("#send-button").on("click", function (){
-    userMessage = $("#chat-input").val();
+    var playerMarker = sessionStorage.getItem("user");
+    userMessage = playerMarker + ": " + $("#chat-input").val();
     sendMessage();
     $("#chat-input").val("");
     scrollLastMessage();
@@ -95,24 +96,21 @@ function sendMessage(){
   database.ref("chat-log").set({
     message:userMessage,
     });
-    var chatMsg = firebase.database().ref("/chat-log");
-    chatMsg.once("value")
-    .then(function(snapshot) {
+    }
+
+
+database.ref("chat-log").on("value", function(snapshot){  
       if (snapshot.child("message").exists())  {
         var chatMessage = $('<p class="messages">');
-        var playerMarker = sessionStorage.getItem("user");
-        chatMessage.text(playerMarker + ": " + snapshot.val().message);
+        chatMessage.text(snapshot.val().message);
         chatMessage.appendTo(".chat-display")
         userMessage = ""
         database.ref("chat-log").set({
           message:userMessage,
-          });
-      }}
-      , function(errorObject) {
-      console.log("The read failed: " + errorObject.code);
+        });
+      }
       });
 
-}
 
 
  
