@@ -51,7 +51,7 @@ $(document).ready(function (){
           $(".chat-screen").show();
           console.log("playerOne")
           sessionStorage.setItem("user", "Player One");
-          database.ref("users/playerOne").onDisconnect().set({
+          database.ref("users/playerOne").onDisconnect(disconnectMessage).set({
             player:false,
             });
           } else {
@@ -63,7 +63,7 @@ $(document).ready(function (){
           $("#click-play").hide();
           $("#feedback").text("Player Two");
           $(".chat-screen").show();
-          database.ref("users/playerTwo").onDisconnect().set({
+          database.ref("users/playerTwo").onDisconnect(disconnectMessage).set({
             player:false,
             });
     };
@@ -73,7 +73,11 @@ $(document).ready(function (){
 
   
 
-
+function disconnectMessage() {
+  ref("chat-log").onDisconnect().update({
+    message: "The Other Player Has Disconnected",
+  });
+}
 
 
 // chat functions
