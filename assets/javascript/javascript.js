@@ -15,6 +15,7 @@ var database = firebase.database();
 var userMessage;
 
 $(document).ready(function (){
+  $(".matchmaking-screen").hide();
   $(".chat-screen").hide();
   $("#click-play").show();
   $(".game-buttons").hide();
@@ -27,10 +28,8 @@ $(document).ready(function (){
     var player = firebase.database().ref("users");
     player.once("value")
     .then(function(snapshot) {
-      if ((snapshot.child("playerOne/player").val()=== true) && (snapshot.child("playerTwo/player").val()=== true))
-      {
+      if ((snapshot.child("playerOne/player").val()=== true) && (snapshot.child("playerTwo/player").val()=== true)){
         $("#feedback").text("Game is Full Please Try Again later");
-        
       }  else if ((snapshot.child("playerTwo/player").val()=== false) && (snapshot.child("playerOne/player").val()=== false)){
         database.ref("users/playerOne").set({
           player:true,
@@ -38,7 +37,7 @@ $(document).ready(function (){
           $("#click-play").hide();
           $("#feedback").text("Player One");
           $(".chat-screen").show();
-          $(".game-buttons").show();
+          $(".matchmaking-screen").show();
           console.log("playerOne")
           sessionStorage.setItem("user", "Player One");
           database.ref("users/playerOne").onDisconnect().set({
@@ -51,10 +50,10 @@ $(document).ready(function (){
           $("#click-play").hide();
           $("#feedback").text("Player One");
           $(".chat-screen").show();
-          $(".game-buttons").show();
+          $(".matchmaking-screen").hide();
           console.log("playerOne")
           sessionStorage.setItem("user", "Player One");
-          database.ref("users/playerOne").onDisconnect(disconnectMessage).set({
+          database.ref("users/playerOne").onDisconnect().set({
             player:false,
             });
           } else {
@@ -66,33 +65,39 @@ $(document).ready(function (){
           $("#click-play").hide();
           $("#feedback").text("Player Two");
           $(".chat-screen").show();
-          $(".game-buttons").show();
-          database.ref("users/playerTwo").onDisconnect(disconnectMessage).set({
+          $(".matchmaking-screen").hide();
+          database.ref("users/playerTwo").onDisconnect().set({
             player:false,
             });
     };
   });
   });
 
-  $(".choice").on("click", function(){
-    console.log("this")
-    var gameChoice = $(this).data();
-    var player = firebase.database().ref("users");
-    player.once("value")
-    .then(function(snapshot){
-      
-        
-      
-    });
-  });
+  database.ref("users").on("value", function(snapshot){  
+    if ((snapshot.child("playerOne/player").val() === true) && (snapshot.child("playerTwo/player").val() === true)){
+      $(".matchmaking-screen").hide();
+      $(".game-buttons").show();
+      game();
+    } else {
+      ;
+    };
+  })
+
+
+
+  // $(".choice").on("click", function(){
+  //   console.log("this")
+  //   var gameChoice = $(this).data();
+  //   var player = firebase.database().ref("users");
+  //   player.once("value")
+  //   .then(function(snapshot){
+  //   });
+  // });
 
   
 
-function disconnectMessage() {
-  ref("chat-log").onDisconnect().update({
-    message: "The Other Player Has Disconnected",
-  });
-}
+
+
 
 
 // chat functions
@@ -134,7 +139,6 @@ database.ref("chat-log").on("value", function(snapshot){
 
  
 function scrollLastMessage(){
-  
   var div = $(".messages");
     div.scrollTop(div.prop('scrollHeight'));
 }
