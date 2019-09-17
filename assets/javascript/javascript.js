@@ -15,34 +15,49 @@ var database = firebase.database();
 var userMessage;
 
 $(document).ready(function (){
+  
   $("#click-play").show();
   // database.ref("").on("value", function(snapshot){  })
   // database.ref("").set({});
 
-  // click to play. if player one exists then assign player two else assign player one. else if player one and two exist aler that game is full and to try again later,.
+  // click to play. if player one exists then assign player two else assign player one. else if player one and two exist alert that game is full and to try again later,.
 
   $("#click-play").on("click", function(){
-    var x = firebase.database().ref("users");
-    x.once("value")
+    var player = firebase.database().ref("users");
+    player.once("value")
     .then(function(snapshot) {
-      if (snapshot.child("playerOne/player").val()=== true){
+      if ((snapshot.child("playerOne/player").val()=== true) && (snapshot.child("playerTwo/player").val()=== true))
+      {
+        $("#feedback").text("Game is Full Please Try Again later");
+        $("#click-play").hide();
+      }  else if ((snapshot.child("playerTwo/player").val()=== false) && (snapshot.child("playerOne/player").val()=== false)){
+        database.ref("users/playerOne").set({
+          player:true,
+          });
+          $("#click-play").hide();
+          $("#feedback").text("Player One");
+          console.log("playerOne")
+          sessionStorage.setItem("user", "Player One");
+          database.ref("users/playerOne").onDisconnect().set({
+            player:false,
+            });
+      } else {
         database.ref("users/playerTwo").set({
           player:true,
           });
           console.log("playerTwo")
-      } else {
-        database.ref("users/playerOne").set({
-          player:true,
-          });
-          console.log("playerOne")
-      }
-    }
-    );
-    $("#click-play").hide();
+          sessionStorage.setItem("user", "Player Two");
+          $("#click-play").hide();
+          $("#feedback").text("Player Two");
+          database.ref("users/playerTwo").onDisconnect().set({
+            player:false,
+            });
+    };
+  });
   });
 
 
-
+  
 
 
 
@@ -51,40 +66,47 @@ $(document).ready(function (){
   $("#chat-input").on("keyup", function(event){
     if (event.keyCode === 13) {
       event.preventDefault();
-      
       $("#send-button").click();
     }
   });
 
   $("#send-button").on("click", function (){
-    
     userMessage = $("#chat-input").val();
     sendMessage();
-    
-
-  })
-
+    $("#chat-input").val("");
+    scrollLastMessage();
+  });
+  
 function sendMessage(){
   database.ref("chat-log").set({
     message:userMessage,
     });
+    var chatMsg = firebase.database().ref("/chat-log");
+    chatMsg.once("value")
+    .then(function(snapshot) {
+      if (snapshot.child("message").exists())  {
+        var chatMessage = $('<p class="messages">');
+        var playerMarker = sessionStorage.getItem("user");
+        chatMessage.text(playerMarker + ": " + snapshot.val().message);
+        chatMessage.appendTo(".chat-display")
+        userMessage = ""
+        database.ref("chat-log").set({
+          message:userMessage,
+          });
+      }}
+      , function(errorObject) {
+      console.log("The read failed: " + errorObject.code);
+      });
+
 }
 
-database.ref("/chat-log").on("value", function(snapshot) {
-  if (snapshot.child("message").exists())  {
-    var chatMessage = $("<p>");
-    chatMessage.text(snapshot.val().message);
-    chatMessage.appendTo(".chat-display")
-    userMessage = ""
-    database.ref("chat-log").set({
-      message:userMessage,
-      });
-  }}
-  , function(errorObject) {
-  console.log("The read failed: " + errorObject.code);
-  });
- 
 
+ 
+function scrollLastMessage(){
+  
+  var div = $(".messages");
+    div.scrollTop(div.prop('scrollHeight'));
+}
 
 
 
