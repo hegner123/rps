@@ -17,6 +17,7 @@ var userMessage;
 $(document).ready(function (){
   $(".chat-screen").hide();
   $("#click-play").show();
+  $(".game-buttons").hide();
   // database.ref("").on("value", function(snapshot){  })
   // database.ref("").set({});
 
@@ -37,6 +38,7 @@ $(document).ready(function (){
           $("#click-play").hide();
           $("#feedback").text("Player One");
           $(".chat-screen").show();
+          $(".game-buttons").show();
           console.log("playerOne")
           sessionStorage.setItem("user", "Player One");
           database.ref("users/playerOne").onDisconnect().set({
@@ -49,6 +51,7 @@ $(document).ready(function (){
           $("#click-play").hide();
           $("#feedback").text("Player One");
           $(".chat-screen").show();
+          $(".game-buttons").show();
           console.log("playerOne")
           sessionStorage.setItem("user", "Player One");
           database.ref("users/playerOne").onDisconnect(disconnectMessage).set({
@@ -63,6 +66,7 @@ $(document).ready(function (){
           $("#click-play").hide();
           $("#feedback").text("Player Two");
           $(".chat-screen").show();
+          $(".game-buttons").show();
           database.ref("users/playerTwo").onDisconnect(disconnectMessage).set({
             player:false,
             });
@@ -70,6 +74,17 @@ $(document).ready(function (){
   });
   });
 
+  $(".choice").on("click", function(){
+    console.log("this")
+    var gameChoice = $(this).data();
+    var player = firebase.database().ref("users");
+    player.once("value")
+    .then(function(snapshot){
+      
+        
+      
+    });
+  });
 
   
 
