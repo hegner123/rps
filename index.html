@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-database.js"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
   <script src="assets/javascript/javascript.js"></script>
   <title>MULITPLAYER RPS</title>
@@ -22,9 +23,17 @@
     </div>
 
     <div class="row">
-      <div class="col col-12 m-3 game-screen">
+      <div class="col col-12 my-5 game-screen">
 
-        <button class=" btn btn-dark" id="click-play">Click To Play</button>
+        <button class="btn btn-dark" id="click-play">Click To Play</button>
+
+        <div class="game-buttons col-12 mt-3 text-center d-none">
+            <button>Rock</button>
+            <button>Paper</button>
+            <button>Scissors</button>
+        </div>
+        
+
 
        
       </div>
@@ -38,6 +47,16 @@
       </div>
 
       <div class="col col-12 col-md-5 chat-screen ml-auto">
+        <div class="card">
+          <div class="card-body overflow-auto chat-display">
+            <p> User 1: Bet you can't break my rock</p>
+            <p>User 2: Bet I can!</p>
+            <p> User 1: Bet you can't break my rock</p>
+            <p>User 2: Bet I can!</p>
+            <p> User 1: Bet you can't break my rock</p>
+            <p>User 2: Bet I can!</p>
+          </div>
+        </div>
 
           <div class="input-group mb-3">
               <input type="text" class="form-control" id="chat-input" placeholder="Chat" aria-label="Chat" aria-describedby="button-addon2">
