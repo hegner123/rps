@@ -39,6 +39,15 @@
             <button class="btn col-3 choice" data="paper" id="paper">Paper</button>
             <button class="btn col-3 choice" data="scissors" id="scissors">Scissors</button>
         </div>
+
+        <h1 class="result"></h1>
+
+        <div class="opponent-choice-screen text-center mt-5">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <h3>Please wait while your opponent makes their choice.</h3>
+      </div>
         
 
 
@@ -48,9 +57,9 @@
 
     <div class="row">
       <div class="col col-12 col-md-5 game-stats ml-auto">
-          <p>Player Waiting: No</p>
-          <p>Average Wait Time: 25 hours</p>
-          <p>Highest Win Streak: User 12 with 10000 Win Streak</p>
+          <p class="player-one-wins"></p>
+          <p class="player-two-wins"></p>
+          <p class="tie"></p>
       </div>
 
       <div class="col col-12 col-md-5 chat-screen ml-auto">
