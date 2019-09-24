@@ -138,7 +138,6 @@ $(document).ready(function (){
         $(".result").text("YOU TIED");
       } else {
         $(".result").text("PLAYER TWO WINS");
-      
       }};
       $(".opponent-choice-screen").hide();
      
@@ -201,7 +200,7 @@ database.ref("chat-log").on("value", function(snapshot){
       if (snapshot.child("message").exists())  {
         var chatMessage = $('<p class="messages">');
         chatMessage.text(snapshot.val().message);
-        chatMessage.appendTo(".chat-display");
+        chatMessage.prependTo(".chat-display");
         userMessage = "";
         database.ref("chat-log").set({
           message:userMessage,
