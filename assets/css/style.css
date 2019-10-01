@@ -1,3 +1,8 @@
+body {
+  background:black;
+  color:white;
+}
+
 .game-screen{
   height: 15rem;
   background:grey;
