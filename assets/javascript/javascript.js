@@ -186,17 +186,15 @@ $(document).ready(function (){
     userMessage = playerMarker + ": " + $("#chat-input").val();
     sendMessage();
     $("#chat-input").val("");
-    scrollLastMessage();
   });
-  
+
 function sendMessage(){
   database.ref("chat-log").set({
     message:userMessage,
     });
     }
-
-
-database.ref("chat-log").on("value", function(snapshot){  
+    
+  database.ref("chat-log").on("value", function(snapshot){
       if (snapshot.child("message").exists())  {
         var chatMessage = $('<p class="messages">');
         chatMessage.text(snapshot.val().message);
@@ -206,11 +204,7 @@ database.ref("chat-log").on("value", function(snapshot){
           message:userMessage,
         });
       }
-      });
-
-
-
- 
+});
 
 
 
@@ -218,9 +212,4 @@ database.ref("chat-log").on("value", function(snapshot){
 
 
 
-
-
-
-
-
-})
+});
