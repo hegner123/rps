@@ -1,4 +1,4 @@
-var firebaseConfig = {
+let firebaseConfig = {
   apiKey: "AIzaSyDNiASGDyPT5wj1zAz5Gc55g-wYHcjsG10",
     authDomain: "hegner123-38bad.firebaseapp.com",
     databaseURL: "https://hegner123-38bad.firebaseio.com",
@@ -8,7 +8,7 @@ var firebaseConfig = {
     appId: "1:385773929972:web:04d34742f6c0d0a17f25a1"
 };
 
-var game = {
+let game = {
   playerOneWins:0,
   playerOneLoss:0,
   playerTwoWins:0,
@@ -19,8 +19,8 @@ var game = {
 
 
 firebase.initializeApp(firebaseConfig);
-var database = firebase.database();
-var userMessage;
+let database = firebase.database();
+let userMessage;
 
 $(document).ready(function (){
   $(".opponent-choice-screen").hide();
@@ -34,7 +34,7 @@ $(document).ready(function (){
   // click to play. if player one exists then assign player two else assign player one. else if player one and two exist alert that game is full and to try again later,.
 
   $("#click-play").on("click", function(){
-    var player = firebase.database().ref("users");
+    let player = firebase.database().ref("users");
     player.once("value")
     .then(function(snapshot) {
       if ((snapshot.child("playerOne/player").val()=== true) && (snapshot.child("playerTwo/player").val()=== true)){
@@ -108,7 +108,7 @@ $(document).ready(function (){
    
     $(".opponent-choice-screen").show();
     
-    var gameChoice = $(this).attr("data");
+    let gameChoice = $(this).attr("data");
     console.log(gameChoice);
     if (sessionStorage.getItem("user")=== "Player One"){
       database.ref("users/playerOne").set({
@@ -124,8 +124,8 @@ $(document).ready(function (){
     $(".game-buttons").hide();
     database.ref("users").on("value", function(snapshot){
       if ((snapshot.child("playerOne/choice").val() !== "none") && (snapshot.child("playerTwo/choice").val() !== "none")){
-      var playerOneGuess = snapshot.child("playerOne/choice").val();
-      var playerTwoGuess = snapshot.child("playerTwo/choice").val();
+      let playerOneGuess = snapshot.child("playerOne/choice").val();
+      let playerTwoGuess = snapshot.child("playerTwo/choice").val();
 
       if ((playerOneGuess === "rock") || (playerOneGuess === "paper") || (playerOneGuess === "scissors")) {
 
@@ -150,7 +150,7 @@ $(document).ready(function (){
 
 
   function resetGameState(){
-    var rest = firebase.database().ref("users");
+    let rest = firebase.database().ref("users");
     rest.once("value")
     .then(function(snapshot) {
       if (sessionStorage.getItem("user")=== "Player One"){
@@ -182,7 +182,7 @@ $(document).ready(function (){
   });
 
   $("#send-button").on("click", function (){
-    var playerMarker = sessionStorage.getItem("user");
+    let playerMarker = sessionStorage.getItem("user");
     userMessage = playerMarker + ": " + $("#chat-input").val();
     sendMessage();
     $("#chat-input").val("");
@@ -196,7 +196,7 @@ function sendMessage(){
     
   database.ref("chat-log").on("value", function(snapshot){
       if (snapshot.child("message").exists())  {
-        var chatMessage = $('<p class="messages">');
+        let chatMessage = $('<p class="messages">');
         chatMessage.text(snapshot.val().message);
         chatMessage.prependTo(".chat-display");
         userMessage = "";
