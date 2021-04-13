@@ -48,7 +48,7 @@ $(document).ready(function (){
           $("#feedback").text("Player One");
           $(".chat-screen").show();
           $(".matchmaking-screen").show();
-          console.log("playerOne")
+          // console.log("playerOne")
           sessionStorage.setItem("user", "Player One");
           sessionStorage.setItem("game", "play");
           database.ref("users/playerOne").onDisconnect().set({
@@ -64,7 +64,7 @@ $(document).ready(function (){
           $("#feedback").text("Player One");
           $(".chat-screen").show();
           $(".matchmaking-screen").hide();
-          console.log("playerOne")
+          // console.log("playerOne")
           sessionStorage.setItem("user", "Player One");
           sessionStorage.setItem("game", "play");
           database.ref("users/playerOne").onDisconnect().set({
@@ -76,7 +76,7 @@ $(document).ready(function (){
           player:true,
           choice: "none"
           });
-          console.log("playerTwo")
+          // console.log("playerTwo")
           sessionStorage.setItem("user", "Player Two");
           sessionStorage.setItem("game", "play");
           $("#click-play").hide();
@@ -88,11 +88,10 @@ $(document).ready(function (){
             choice: "none"
             });
     };
-    database.ref("users").on("value", function(snapshot){  
+    database.ref("users").on("value", function(snapshot){
       if ((sessionStorage.getItem("game") === "play") && (snapshot.child("playerOne/player").val() === true) && (snapshot.child("playerTwo/player").val() === true)){
         $(".matchmaking-screen").hide();
         $(".game-buttons").show();
-        
       } else {
         ;
       };
@@ -100,16 +99,12 @@ $(document).ready(function (){
   });
   });
 
-  
-
 
 
   $(".choice").on("click", function(){
-   
     $(".opponent-choice-screen").show();
-    
     let gameChoice = $(this).attr("data");
-    console.log(gameChoice);
+    // console.log(gameChoice);
     if (sessionStorage.getItem("user")=== "Player One"){
       database.ref("users/playerOne").set({
         player:true,
@@ -130,9 +125,9 @@ $(document).ready(function (){
       if ((playerOneGuess === "rock") || (playerOneGuess === "paper") || (playerOneGuess === "scissors")) {
 
       if ((playerOneGuess === "rock" && playerTwoGuess === "scissors") ||
-      (playerOneGuess === "scissors" && playerTwoGuess === "paper") || 
+      (playerOneGuess === "scissors" && playerTwoGuess === "paper") ||
       (playerOneGuess === "paper" && playerTwoGuess === "rock")) {
-       
+
       $(".result").text("PLAYER ONE WINS");
       } else if (playerOneGuess === playerTwoGuess) {
         $(".result").text("YOU TIED");
@@ -140,7 +135,7 @@ $(document).ready(function (){
         $(".result").text("PLAYER TWO WINS");
       }};
       $(".opponent-choice-screen").hide();
-     
+
       resetGameState();
       }
     })
@@ -167,7 +162,7 @@ $(document).ready(function (){
   }
   )};
 
-  
+
 
 
 
@@ -193,7 +188,7 @@ function sendMessage(){
     message:userMessage,
     });
     }
-    
+
   database.ref("chat-log").on("value", function(snapshot){
       if (snapshot.child("message").exists())  {
         let chatMessage = $('<p class="messages">');
